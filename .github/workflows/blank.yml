@@ -1,0 +1,30 @@
+name: Release
+
+on:
+  push:
+    branches: [ main ]
+
+
+jobs:
+  release:
+    name: Build Artifact
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          repository: 'angel-one/build-go-actions'
+          ref: '2.0.0'
+          token: ${{ secrets.GIT_TOKEN }}
+          path: .github/workflows
+          clean: 'false'
+
+      - name: Run Custom Go Build action
+        uses: ./.github/workflows # Uses an action in the directory
+        id: image
+        with:
+          GO_IMAGE_VER: 1.17 #1.16
+          GITHUB_TOKEN: ${{ secrets.GIT_TOKEN }}
+          MY_NAME: ${{ secrets.MY_NAME }}
+      - run: go build
+        shell: bash
