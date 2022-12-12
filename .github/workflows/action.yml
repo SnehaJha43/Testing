@@ -15,7 +15,6 @@ jobs:
         with:
           repository: './build-go-actions'
           ref: '2.0.0'
-          MY_NAME: ${{ secrets.MY_NAME }}
           path: .github/workflows
 
           clean: 'false'
