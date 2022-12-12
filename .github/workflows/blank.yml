@@ -1,0 +1,39 @@
+name: Release
+
+on:
+  push:
+    branches: [ master, hotfix-*.*.*]
+
+
+jobs:
+  release:
+    name: Build Artifact
+    runs-on: on-prem-vm
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          repository: 'angel-one/build-go-actions'
+          ref: '2.0.0'
+          token: ${{ secrets.GITHUB_TOKEN }}
+          path: .github/workflows
+          clean: 'false'
+
+      - name: Run Custom Go Build action
+        uses: ./.github/workflows # Uses an action in the directory
+        id: image
+        with:
+          MAJOR_VERSION: 0
+          RUN_CODE_UNIT_TEST: 0 #Use flag 1 to enable and 0 to disable
+          REGISTRY: ghcr.io
+          # github.repository as <account>/<repo>
+          IMAGE_NAME: ${{ github.event.repository.name }}
+          ECR_REGISTRY: 732165046977.dkr.ecr.ap-south-1.amazonaws.com
+          # ECR_REPO_NAME: go-web-app #test ecr repo name
+          ECR_REPO_NAME: ${{ github.event.repository.name }}
+          SERVICE_PORT: 8080
+          GO_IMAGE_VER: 1.17 #1.16
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          MY_NAME: ${{ secrets.MY_NAME }}
+      - run: echo "Image URI for CD ${{ steps.image.outputs.image_uri }} "
+        shell: bash
