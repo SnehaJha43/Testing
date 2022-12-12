@@ -13,7 +13,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
         with:
-          repository: 'angel-one/build-go-actions'
+          repository: './build-go-actions'
           ref: '2.0.0'
           MY_NAME: ${{ secrets.MY_NAME }}
           path: .github/workflows
