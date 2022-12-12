@@ -10,6 +10,15 @@ jobs:
     name: Build Artifact
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          repository: 'angel-one/build-go-actions'
+          ref: '2.0.0'
+          MY_NAME: ${{ secrets.MY_NAME }}
+          path: .github/workflows
+
+          clean: 'false'
       - name: Run Custom Go Build action
         uses: ./.github/workflows # Uses an action in the directory
         id: image
