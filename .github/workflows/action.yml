@@ -13,7 +13,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
         with:
-          repository: '/SnehaJha43/Testing'
+          repository: 'SnehaJha43/Testing'
           ref: '2.0.0'
           path: .github/workflows
 
